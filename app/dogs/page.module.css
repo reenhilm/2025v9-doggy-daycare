@@ -1,0 +1,11 @@
+.roundedbutton {
+    background-color: var(--color);
+}
+
+.greenborder {
+    border-color: green;
+}
+
+.redborder {
+    border-color: red;
+}

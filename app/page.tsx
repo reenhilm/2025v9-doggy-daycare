@@ -16,7 +16,7 @@ export default function Home() {
           <main>
             <Link
               href={`/dogs`}          
-              className={`${styles.roundedbutton} rounded-lg shadow-md`}>
+              className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`}>
               OUR DOGS
             </Link>
           </main>
