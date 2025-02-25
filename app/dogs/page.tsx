@@ -1,19 +1,12 @@
+'use client';
+import { useDogsContext } from '@/hooks/useDogs'
+import React from 'react'
 import styles from './page.module.css'
-
-interface dog {
-    name: string;
-    breed: string;
-    owner: string;
-    age: number;
-    present: boolean;
-}
+import Link from 'next/link';
 
 export default function Dogs() {
+    const { state } = useDogsContext();
 
-    const dogs: dog[] = [
-        { name: 'Bosse', breed: 'purebred puppy', owner: 'Pelle Stöök', age: 4, present: true },
-        { name: 'Lola', breed: 'purebred puppy', owner: 'Pelle Stöök', age: 2, present: false }
-    ];
     return (
         <>
             <div className="flex">
@@ -29,8 +22,9 @@ export default function Dogs() {
                             <button className={`${styles.roundedbutton} rounded-lg shadow-md py-1 px-4 my-4`}>filter</button>
                         </div>
                         <ul className='flex gap-3 flex-col'>
-                            {dogs.map((dog, index) =>
+                            {state.dogs.map((dog, index) =>                                
                                 <li key={index} className={dog.present ? styles.greenborder + ' border-8' : styles.redborder + ' border-8'}>
+                                    <Link href={`/dogs/${dog.id}`}>
                                     <div>
                                         <div className='mx-25 my-20'>Image</div>
                                     </div>
@@ -41,7 +35,8 @@ export default function Dogs() {
                                         </div>
                                         <div className='border-2 text-black'>{dog.age}y/o</div>
                                     </div>
-                                    <div className='text-black my-4 px-3'>OWNER: {dog.owner}</div>
+                                        <div className='text-black my-4 px-3'>OWNER: {dog.owner}</div>
+                                    </Link>
                                 </li>
                             )}
                         </ul>
