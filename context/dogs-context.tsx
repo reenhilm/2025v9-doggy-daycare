@@ -6,12 +6,21 @@ export const DogsContext = createContext<{ state: DogState; dispatch: Dispatch<D
     undefined
 );
 
-export function DogsProvider({ children }: { children: ReactNode }) {
-    const [state, dispatch] = useReducer(dogReducer, { dogs: [{ id: '1', name: 'Bosse', breed: 'purebred puppy', owner: 'Pelle Stöök', age: 4, present: true }, { id: '2', name: 'Lola', breed: 'purebred puppy', owner: 'Pelle Stöök', age: 2, present: false }] });
+interface DogsProviderProps {
+    children: ReactNode;
+    initialDogs: Dog[]; // Optional prop to pass initial dogs
+}
 
-    // useEffect(() => {}, []);
+export function DogsProvider({ children, initialDogs = [] }: DogsProviderProps) {
+   
+    const [state, dispatch] = useReducer(dogReducer, { 
+        //dogs: [{ id: '1', name: 'Bosse', breed: 'purebred puppy', owner: 'Pelle Stöök', age: 4, present: true }, { id: '2', name: 'Lola', breed: 'purebred puppy', owner: 'Pelle Stöök', age: 2, present: false }]
+        dogs: initialDogs,
+        page: 1
+    });
+       
     return (
-        <DogsContext.Provider value={{ state, dispatch }}>
+        <DogsContext.Provider value={{ state, dispatch }}>           
             {children}
         </DogsContext.Provider>
     )

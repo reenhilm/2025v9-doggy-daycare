@@ -3,10 +3,12 @@ import { useDogsContext } from '@/hooks/useDogs'
 import React from 'react'
 import styles from './page.module.css'
 import Link from 'next/link';
+import { Dog } from '@/interfaces/dogs';
 
 export default function Dogs() {
+    const dogPerPage = 2;
     const { state } = useDogsContext();
-
+    const dogsForPage: Dog[] = state.dogs.slice(0, dogPerPage);
     return (
         <>
             <div className="flex">
@@ -21,8 +23,9 @@ export default function Dogs() {
                             <button className={`${styles.roundedbutton} rounded-lg shadow-md py-1 px-4 my-4`}>search</button>
                             <button className={`${styles.roundedbutton} rounded-lg shadow-md py-1 px-4 my-4`}>filter</button>
                         </div>
+                        Page: {state.page} out of {Math.ceil(state.dogs.length / dogPerPage)}
                         <ul className='flex gap-3 flex-col'>
-                            {state.dogs.map((dog, index) =>                                
+                            {dogsForPage.map((dog, index) =>                                
                                 <li key={index} className={dog.present ? styles.greenborder + ' border-8' : styles.redborder + ' border-8'}>
                                     <Link href={`/dogs/${dog.id}`}>
                                     <div>
