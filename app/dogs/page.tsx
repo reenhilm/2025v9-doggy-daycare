@@ -4,6 +4,7 @@ import React from 'react'
 import styles from './page.module.css'
 import Link from 'next/link';
 import { Dog } from '@/interfaces/dogs';
+import Image from "next/image";
 
 export default function Dogs() {
     const dogPerPage = 2;
@@ -29,7 +30,14 @@ export default function Dogs() {
                                 <li key={index} className={dog.present ? styles.greenborder + ' border-8' : styles.redborder + ' border-8'}>
                                     <Link href={`/dogs/${dog.id}`}>
                                     <div>
-                                        <div className='mx-25 my-20'>Image</div>
+                                        <div className=''>
+                                            <Image
+                                                alt={dog.name}
+                                                src={dog.img}
+                                                width={400}
+                                                height={400}
+                                            />
+                                        </div>
                                     </div>
                                     <div className='flex justify-between items-start px-3'>
                                         <div>

@@ -2,6 +2,7 @@ export interface Dog {
     id: string;
     name: string;
     breed: string;
+    img: string;
     owner: string;
     age: number;
     present: boolean;
