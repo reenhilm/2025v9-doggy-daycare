@@ -26,22 +26,19 @@ const updateDog = (dog: partialDog, isPresent: boolean) => {
 
 if (currentDog)
     return (
-        <>                      
-            <div className={currentDog?.present ? styles.greenborder + ' flex flex-col border-8' : styles.redborder + ' flex flex-col border-8'}>
-                <div className='border-2'>
-                    <Image
-                        alt={currentDog.name}
-                        src={currentDog.img}
-                        width={400}
-                        height={400}
-                    />
-                </div>
-                {currentDog.name} {currentDog?.present ? 'Är närvarande' : 'Är inte närvarande'}
-                <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => updateDog(currentDog, true)}>Ändra till närvarande</button>
-                <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => updateDog(currentDog, false)}>Ändra till frånvarande</button>
+        <div className={currentDog?.present ? styles.greenborder + ' flex flex-col border-8' : styles.redborder + ' flex flex-col border-8'}>
+            <div className='border-2'>
+                <Image
+                    alt={currentDog.name}
+                    src={currentDog.img}
+                    width={400}
+                    height={400}
+                />
             </div>
-        </>
-
+            {currentDog.name} {currentDog?.present ? 'Är närvarande' : 'Är inte närvarande'}
+            <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => updateDog(currentDog, true)}>Ändra till närvarande</button>
+            <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => updateDog(currentDog, false)}>Ändra till frånvarande</button>
+        </div>
     )
 else
         return notFound();

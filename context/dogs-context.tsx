@@ -14,7 +14,6 @@ interface DogsProviderProps {
 export function DogsProvider({ children, initialDogs = [] }: DogsProviderProps) {
    
     const [state, dispatch] = useReducer(dogReducer, { 
-        //dogs: [{ id: '1', name: 'Bosse', breed: 'purebred puppy', owner: 'Pelle Stöök', age: 4, present: true }, { id: '2', name: 'Lola', breed: 'purebred puppy', owner: 'Pelle Stöök', age: 2, present: false }]
         dogs: initialDogs,
         page: 1
     });

@@ -13,7 +13,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Doggy Daycare",
-  description: "Created by Christian Rönnholm",
+  description: "Dog presence system",
+  authors: {
+    url: new URL('https://www.linkedin.com/in/christian-ronnholm'),
+    name: 'Christian Rönnholm'
+  }
 };
 
 export default async function RootLayout({
