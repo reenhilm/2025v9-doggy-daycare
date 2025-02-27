@@ -9,7 +9,7 @@ import Image from "next/image";
 export default function DogList() {
     const dogPerPage = 2;
     const { state } = useDogsContext();
-    const dogsForPage: Dog[] = state.dogs.slice(0, dogPerPage);
+    const dogSlice: Dog[] = state.dogs.slice(0, dogPerPage);
     return (
         <div className="flex">
             <div className="flex flex-col m-auto items-center">
@@ -25,7 +25,7 @@ export default function DogList() {
                     </div>
                     Page: {state.page} out of {Math.ceil(state.dogs.length / dogPerPage)}
                     <ul className='flex gap-3 flex-col'>
-                        {dogsForPage.map((dog, index) =>
+                        {dogSlice.map((dog, index) =>
                             <li key={index} className={dog.present ? styles.greenborder + ' border-8' : styles.redborder + ' border-8'}>
                                 <Link href={`/dogs/${dog.id}`}>
                                     <div>
