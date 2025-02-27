@@ -20,7 +20,7 @@ export default function Home() {
           </Link>
         </main>
         <footer>
-          <div className="my-30">
+          <div className="mt-30">
             <Image
               src={splashfooter}
               alt="A Dog Wearing Thug Life Meme Pixel Sunglasses">

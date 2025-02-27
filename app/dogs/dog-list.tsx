@@ -11,7 +11,7 @@ export default function DogList() {
     const { state } = useDogsContext();
     const dogSlice: Dog[] = state.dogs.slice(0, dogPerPage);
     return (
-        <div className="flex">
+        <div className="flex mb-15">
             <div className="flex flex-col m-auto items-center">
                 <header>
                     <h1 className="text-3xl font-bold max-w-3xs drop-shadow-lg mt-15 text-center">
@@ -29,7 +29,7 @@ export default function DogList() {
                             <li key={index} className={dog.present ? styles.greenborder + ' border-8' : styles.redborder + ' border-8'}>
                                 <Link href={`/dogs/${dog.id}`}>
                                     <div>
-                                        <div className=''>
+                                        <div>
                                             <Image
                                                 alt={dog.name}
                                                 src={dog.img}
@@ -43,9 +43,10 @@ export default function DogList() {
                                             <h3 className='text-l uppercase font-bold text-black'>{dog.name}</h3>
                                             <p className='text-black'>{dog.breed}</p>
                                         </div>
-                                        <div className='border-2 text-black'>{dog.age}y/o</div>
+                                        <div className='text-black'>{dog.age}y/o</div>
                                     </div>
                                     <div className='text-black my-4 px-3'>OWNER: {dog.owner}</div>
+                                    <div className='text-black my-4 px-3'>Närvarostatus: {dog.present ? '✅ Närvarande' : '❌ Frånvarande"'}</div>
                                 </Link>
                             </li>
                         )}
