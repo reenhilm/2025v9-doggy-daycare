@@ -50,7 +50,7 @@ export const dogReducer = (state: DogState, action: DogAction): DogState => {
             if (!foundDog)
                 throw new Error("Did not find dog, could not update");
 
-            return { ...state, dogs: updateDog(state.dogs, foundDog.id, action.payload.partialDog!) };
+            return { ...state, dogs: updateDog(state.dogs, foundDog.id, action.payload.partialDog!), dogsInPage: updateDog(state.dogsInPage, foundDog.id, action.payload.partialDog!) };
         
         case "SET_PAGE":
             if (!action.payload.pageToSet)
