@@ -3,13 +3,23 @@ import { useDogsContext } from '@/hooks/useDogs'
 import React from 'react'
 import styles from './page.module.css'
 import Link from 'next/link';
-import { Dog } from '@/interfaces/dogs';
 import Image from "next/image";
 
 export default function DogList() {
-    const dogPerPage = 2;
-    const { state } = useDogsContext();
-    const dogSlice: Dog[] = state.dogs.slice(0, dogPerPage);
+
+    
+    const { state, dispatch } = useDogsContext();
+
+    const setPage = (page:number) => {
+        dispatch({
+            type: "SET_PAGE",
+            payload: {
+                pageToSet: page
+            }
+        });
+    } 
+
+    
     return (
         <div className="flex mb-15">
             <div className="flex flex-col m-auto items-center">
@@ -23,9 +33,10 @@ export default function DogList() {
                         <button className={`${styles.roundedbutton} rounded-lg shadow-md py-1 px-4 my-4`}>search</button>
                         <button className={`${styles.roundedbutton} rounded-lg shadow-md py-1 px-4 my-4`}>filter</button>
                     </div>
-                    Page: {state.page} out of {Math.ceil(state.dogs.length / dogPerPage)}
+                    Page: {state.page} out of {state.totalPagesForSearch}
+                    <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => setPage(2)}>Gå till sida 2</button>
                     <ul className='flex gap-3 flex-col'>
-                        {dogSlice.map((dog, index) =>
+                        {state.dogsInPage.map((dog, index) =>
                             <li key={index} className={dog.present ? styles.greenborder + ' border-8' : styles.redborder + ' border-8'}>
                                 <Link href={`/dogs/${dog.id}`}>
                                     <div>

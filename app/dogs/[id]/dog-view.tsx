@@ -11,15 +11,16 @@ interface partialDog {
 export default function Dog({ dogid }: { dogid: string }) {
 
     const { state, dispatch } = useDogsContext();
-    console.log(state, dogid);
     const currentDog = state.dogs.find((i) => i.id === dogid);
 
 const updateDog = (dog: partialDog, isPresent: boolean) => {
     dispatch({
         type: "UPDATE_DOG",
         payload: {
-            id: dog.id,
-            present: isPresent
+            partialDog: {
+                id: dog.id,
+                present: isPresent
+            }
         }
     });
 }

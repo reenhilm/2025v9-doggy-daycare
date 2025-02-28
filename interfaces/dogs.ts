@@ -22,5 +22,15 @@ export interface APIOwner {
     lastName: string;
     phoneNumber: string;
 }
-export interface DogState { dogs: Dog[], page: number };
-export interface DogAction { type: string; payload: Partial<Dog> };
+export interface DogState {
+    dogs: Dog[],
+    page: number,
+    dogsInPage: Dog[],
+    totalPagesForSearch: number
+};
+
+export interface PayloadForDogAction {
+    partialDog?: Partial<Dog>,
+    pageToSet?: number
+}
+export interface DogAction { type: string; payload: PayloadForDogAction };
