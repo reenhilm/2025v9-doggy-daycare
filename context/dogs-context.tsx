@@ -31,9 +31,8 @@ export function DogsProvider({ children, initialDogs = [] }: DogsProviderProps) 
         //This will not happen since we are in constructor-ish function and we have just set page to 1
         // if (page > 1)
         //     hasPrevPage = true;
-
-        if (page < totalPagesForSearch)
-            hasNextPage = true;
+        
+        hasNextPage = evalHasNextPage(page, totalPagesForSearch);
     }
     
     const [state, dispatch] = useReducer(dogReducer, { 
