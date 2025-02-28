@@ -26,6 +26,8 @@ export interface DogState {
     dogs: Dog[],
     page: number,
     dogsInPage: Dog[],
+    hasPrevPage: boolean,
+    hasNextPage: boolean,
     totalPagesForSearch: number
 };
 
