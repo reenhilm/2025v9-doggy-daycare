@@ -17,7 +17,6 @@ export function DogsProvider({ children, initialDogs = [] }: DogsProviderProps) 
 
     const page:number = 1;
 
-    let hasPrevPage: boolean = false;
     let hasNextPage: boolean = false;
 
     let totalPagesForSearch = -1;
@@ -42,7 +41,7 @@ export function DogsProvider({ children, initialDogs = [] }: DogsProviderProps) 
         page: page,
         dogsInPage: dogSlice,
         totalPagesForSearch: totalPagesForSearch,
-        hasPrevPage: hasPrevPage,
+        hasPrevPage: false,
         hasNextPage: hasNextPage
     });
        
