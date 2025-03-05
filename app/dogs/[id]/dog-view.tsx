@@ -3,6 +3,7 @@ import { useDogsContext } from '@/hooks/useDogs'
 import styles from './page.module.css'
 import { notFound, useRouter } from 'next/navigation';
 import Image from "next/image";
+import { useEffect, useRef } from 'react';
 
 interface partialDog {
     id: string;
@@ -33,26 +34,28 @@ export default function Dog({ dogid }: { dogid: string }) {
                 pageToSet: page
             }
         });
-    } 
+    }
+
+    const pageForwardRef = useRef<boolean | null>(null);
+
+    useEffect(() => {
+        if (state.dogsInPage.length > 0 && pageForwardRef.current !== null) {
+            const newDogId = pageForwardRef.current
+                ? state.dogsInPage[0].id // First dog of new page
+                : state.dogsInPage[state.dogsInPage.length - 1].id; // Last dog of new page
+
+            router.push(`/dogs/${newDogId}`);
+            pageForwardRef.current = null; // Reset after use
+        }
+    }, [router, state.dogsInPage, state.page]); // Runs when state.page updates
 
     const goToDogOrChangePage = (dogId: string, pageForward: boolean): void => {
-        console.log('in function', dogId);
         if (dogId)
-            router.push(`/dogs/${dogId}`)
-        else if (pageForward)
-        {
-            setPage(state.page + 1);           
-            //Get first dog of new page
-            //do router push to dog
-            router.push(`/dogs/${state.dogsInPage[0].id}`) 
+            router.push(`/dogs/${dogId}`);
+        else {
+            pageForwardRef.current = pageForward;
+            setPage(pageForward ? state.page + 1 : state.page - 1);    
         }
-        else
-        {
-            setPage(state.page - 1);
-            //Get last dog of new page
-            //do router push to dog
-            router.push(`/dogs/${state.dogsInPage[state.dogsInPage.length - 1].id}`)             
-        }            
     }
 
 
@@ -64,7 +67,7 @@ export default function Dog({ dogid }: { dogid: string }) {
     
         return (
             <>
-                {prevDogId || state.hasPrevPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md`} onClick={() => goToDogOrChangePage(nextDogId, false)}>&lt;&lt;Previous dog</button> : ''}
+                {prevDogId || state.hasPrevPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md`} onClick={() => goToDogOrChangePage(prevDogId, false)}>&lt;&lt;Previous dog</button> : ''}
                 <div className={currentDog?.present ? styles.greenborder + ' flex flex-col border-8' : styles.redborder + ' flex flex-col border-8'}>
                     <div className='border-2'>
                         <Image
@@ -79,7 +82,7 @@ export default function Dog({ dogid }: { dogid: string }) {
                     <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => updateDog(currentDog, false)}>Ändra till frånvarande</button>
                 </div>
                 {nextDogId || state.hasNextPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md`} onClick={() => goToDogOrChangePage(nextDogId, true)}>&gt;&gt;Next dog</button> : ''}
-            </>
+            </> 
         )
     }    
     else
