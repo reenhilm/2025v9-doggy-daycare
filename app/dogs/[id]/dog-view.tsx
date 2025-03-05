@@ -3,7 +3,6 @@ import { useDogsContext } from '@/hooks/useDogs'
 import styles from './page.module.css'
 import { notFound, useRouter } from 'next/navigation';
 import Image from "next/image";
-import Link from 'next/link';
 
 interface partialDog {
     id: string;
