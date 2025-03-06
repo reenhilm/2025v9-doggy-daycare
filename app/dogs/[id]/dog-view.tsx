@@ -64,18 +64,27 @@ export default function Dog({ dogid }: { dogid: string }) {
 
 
     if (currentDog) {
+        //if we enter by direct url http://localhost:3000/dogs/ELN562847 we have no idea of what page this dog is on. If it is in first page everything works but not if it's on later pages.
+        //TODO if this is the case find dog in state.dogs and calculate what page we are at and set page first, maybe do this early in the component as an "return early thing"
+        //Or we could commit a search on the exakt dog-name or ID so the search is small, thus creating few pages
+
         const dogIndexInSearch: number = state.dogsInPage.findIndex((d) => d.id === currentDog.id);
+        console.log('test', dogIndexInSearch);
         
         const prevDogId: string = state.dogsInPage[dogIndexInSearch - 1]?.id;
         const nextDogId: string = state.dogsInPage[dogIndexInSearch + 1]?.id;        
     
         return (
             <>
-                <div className='flex gap-3 items-center my-4'>
-                    {prevDogId || state.hasPrevPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => goToDogOrChangePage(prevDogId, false)}>&lt;&lt;</button> : ''}
-                    <p className='text-black'>Dog: {state.page * 2 + dogIndexInSearch - 1} out of {state.totalDogsForSearch}</p>
-                    {nextDogId || state.hasNextPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => goToDogOrChangePage(nextDogId, true)}>&gt;&gt;</button> : ''}
-                </div>
+                {
+                    // dogIndexInSearch === -1 ? `dogIndexInSearch: ${dogIndexInSearch} currentDog.id: ${currentDog.id} state.dogsInPage: ${state.dogsInPage.length}` :
+                    dogIndexInSearch === -1 ? '' :
+                    <div className='flex gap-3 items-center my-4'>
+                        {prevDogId || state.hasPrevPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => goToDogOrChangePage(prevDogId, false)}>&lt;&lt;</button> : ''}
+                        <p className='text-black'>Dog: {state.page * 2 + dogIndexInSearch - 1} out of {state.totalDogsForSearch}</p>
+                        {nextDogId || state.hasNextPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => goToDogOrChangePage(nextDogId, true)}>&gt;&gt;</button> : ''}
+                    </div>
+                }
                 
                 <div className={currentDog?.present ? styles.greenborder + ' flex flex-col border-8' : styles.redborder + ' flex flex-col border-8'}>
                     <div className='border-2'>
