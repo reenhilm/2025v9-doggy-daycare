@@ -12,7 +12,7 @@ export default function DogNumText({ propps }: { propps: DogNumTextProps }) {
 
     useEffect(() => {
         if (propps.dogIndexInSearch !== -1) {
-            const newText = `Dog: ${propps.page * DOGS_PER_PAGE + propps.dogIndexInSearch - 1} out of ${propps.totalDogsForSearch}`;
+            const newText = `Dog: ${(propps.page - 1) * DOGS_PER_PAGE + propps.dogIndexInSearch + 1} out of ${propps.totalDogsForSearch}`;
             
             const timeout = setTimeout(() => {
                 setLastValidText(newText);

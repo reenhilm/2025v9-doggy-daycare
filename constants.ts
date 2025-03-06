@@ -1,1 +1,1 @@
-export const DOGS_PER_PAGE = 10; // Set the desired number of dogs per page
+export const DOGS_PER_PAGE = 2;
