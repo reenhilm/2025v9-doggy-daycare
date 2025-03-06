@@ -3,6 +3,7 @@ import { useDogsContext } from '@/hooks/useDogs'
 import styles from './page.module.css'
 import { notFound, useRouter } from 'next/navigation';
 import Image from "next/image";
+import { useLayoutEffect, useRef } from 'react';
 
 interface partialDog {
     id: string;
@@ -12,6 +13,8 @@ export default function Dog({ dogid }: { dogid: string }) {
 
     const { state, dispatch } = useDogsContext();
     const router = useRouter();
+    const pageForwardRef = useRef<boolean | null>(null);
+
     const currentDog = state.dogs.find((i) => i.id === dogid);
 
     const updateDog = (dog: partialDog, isPresent: boolean) => {
@@ -33,9 +36,7 @@ export default function Dog({ dogid }: { dogid: string }) {
                 pageToSet: page
             }
         });
-    }
-
-    const dogsPerPage: number = 2;
+    }    
 
     const goToDogOrChangePage = (dogId: string, pageForward: boolean): void => {
         if (dogId) {
@@ -44,19 +45,22 @@ export default function Dog({ dogid }: { dogid: string }) {
         }
 
         const newPage = pageForward ? state.page + 1 : state.page - 1;
-
-        // Manually compute the next dogs before setting state
-        const newDogs = state.dogs.slice(dogsPerPage * (newPage - 1), dogsPerPage * newPage);
-        const newDogId = pageForward ? newDogs[0]?.id : newDogs[newDogs.length - 1]?.id;
-
-        if (!newDogId) {
-            console.warn("No dog found on the new page!");
-            return;
-        }
-
+        pageForwardRef.current = pageForward;
         setPage(newPage);
-        router.replace(`/dogs/${newDogId}`);
     }
+
+    useLayoutEffect(() => {
+        if (state.dogsInPage.length > 0 && pageForwardRef.current !== null) {
+            const newDogId = pageForwardRef.current
+                ? state.dogsInPage[0]?.id
+                : state.dogsInPage[state.dogsInPage.length - 1]?.id;
+
+            if (newDogId) {
+                router.replace(`/dogs/${newDogId}`);
+            }
+            pageForwardRef.current = null; //Reset
+        }
+    }, [state.page, state.dogsInPage]); // Wait for state.page and state.dogsInPage to change
 
 
     if (currentDog) {
@@ -86,10 +90,9 @@ export default function Dog({ dogid }: { dogid: string }) {
                     <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => updateDog(currentDog, true)}>Ändra till närvarande</button>
                     <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => updateDog(currentDog, false)}>Ändra till frånvarande</button>
                 </div>
-
             </> 
         )
     }    
     else
-            return notFound();
+        return notFound();
 }
