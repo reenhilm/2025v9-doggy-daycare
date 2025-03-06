@@ -3,7 +3,6 @@ import { useDogsContext } from '@/hooks/useDogs'
 import styles from './page.module.css'
 import { notFound, useRouter } from 'next/navigation';
 import Image from "next/image";
-import { useEffect, useRef } from 'react';
 
 interface partialDog {
     id: string;
@@ -36,26 +35,27 @@ export default function Dog({ dogid }: { dogid: string }) {
         });
     }
 
-    const pageForwardRef = useRef<boolean | null>(null);
-
-    useEffect(() => {
-        if (state.dogsInPage.length > 0 && pageForwardRef.current !== null) {
-            const newDogId = pageForwardRef.current
-                ? state.dogsInPage[0].id // First dog of new page
-                : state.dogsInPage[state.dogsInPage.length - 1].id; // Last dog of new page
-
-            router.push(`/dogs/${newDogId}`);
-            pageForwardRef.current = null; // Reset after use
-        }
-    }, [router, state.dogsInPage, state.page]); // Runs when state.page updates
+    const dogsPerPage: number = 2;
 
     const goToDogOrChangePage = (dogId: string, pageForward: boolean): void => {
-        if (dogId)
-            router.push(`/dogs/${dogId}`);
-        else {
-            pageForwardRef.current = pageForward;
-            setPage(pageForward ? state.page + 1 : state.page - 1);    
+        if (dogId) {
+            router.replace(`/dogs/${dogId}`);
+            return;
         }
+
+        const newPage = pageForward ? state.page + 1 : state.page - 1;
+
+        // Manually compute the next dogs before setting state
+        const newDogs = state.dogs.slice(dogsPerPage * (newPage - 1), dogsPerPage * newPage);
+        const newDogId = pageForward ? newDogs[0]?.id : newDogs[newDogs.length - 1]?.id;
+
+        if (!newDogId) {
+            console.warn("No dog found on the new page!");
+            return;
+        }
+
+        setPage(newPage);
+        router.replace(`/dogs/${newDogId}`);
     }
 
 

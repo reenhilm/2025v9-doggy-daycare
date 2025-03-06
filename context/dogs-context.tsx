@@ -72,7 +72,16 @@ export const dogReducer = (state: DogState, action: DogAction): DogState => {
                 throw new Error("Correct payload (pageToSet) was not supplied for action");
             
             const pageToSet: number = Number(action.payload.pageToSet!);
-            return { ...state, hasPrevPage: evalHasPrevPage(pageToSet), hasNextPage: evalHasNextPage(pageToSet, state.totalPagesForSearch), page: pageToSet, dogsInPage: state.dogs.slice(dogsPerPage * (pageToSet - 1), dogsPerPage * pageToSet) };
+            const newDogsInPage = state.dogs.slice(dogsPerPage * (pageToSet - 1), dogsPerPage * pageToSet);
+
+            return {
+                ...state,
+                page: pageToSet,
+                hasPrevPage: evalHasPrevPage(pageToSet),
+                hasNextPage: evalHasNextPage(pageToSet, state.totalPagesForSearch),
+                dogsInPage: newDogsInPage,
+                totalDogsForSearch: state.totalDogsForSearch // Ensure this remains unchanged
+            };
         default:
             return state;
     }
