@@ -1,4 +1,5 @@
 "use client";
+import { DOGS_PER_PAGE } from "@/constants";
 import { Dog, DogAction, DogState } from "@/interfaces/dogs";
 import { createContext, Dispatch, ReactNode, useReducer } from "react";
 
@@ -10,8 +11,6 @@ interface DogsProviderProps {
     children: ReactNode;
     initialDogs: Dog[];
 }
-
-const dogsPerPage = 2;
 
 export function DogsProvider({ children, initialDogs = [] }: DogsProviderProps) {
 
@@ -25,10 +24,10 @@ export function DogsProvider({ children, initialDogs = [] }: DogsProviderProps) 
 
     if (initialDogs.length !== 0) {
         //We have a result of more than 0 dogs
-        totalPagesForSearch = Math.ceil(initialDogs.length / dogsPerPage);
+        totalPagesForSearch = Math.ceil(initialDogs.length / DOGS_PER_PAGE);
         totalDogsForSearch = initialDogs.length;
-        //To get end-index it's actually dogsPerPage * page. But since page is 1 it's not needed.
-        dogSlice = initialDogs.slice(dogsPerPage * (page - 1), dogsPerPage);
+        //To get end-index it's actually DOGS_PER_PAGE * page. But since page is 1 it's not needed.
+        dogSlice = initialDogs.slice(DOGS_PER_PAGE * (page - 1), DOGS_PER_PAGE);
 
         //This will not happen since we are in constructor-ish function and we have just set page to 1
         // if (page > 1)
@@ -72,7 +71,7 @@ export const dogReducer = (state: DogState, action: DogAction): DogState => {
                 throw new Error("Correct payload (pageToSet) was not supplied for action");
             
             const pageToSet: number = Number(action.payload.pageToSet!);
-            const newDogsInPage = state.dogs.slice(dogsPerPage * (pageToSet - 1), dogsPerPage * pageToSet);
+            const newDogsInPage = state.dogs.slice(DOGS_PER_PAGE * (pageToSet - 1), DOGS_PER_PAGE * pageToSet);
 
             return {
                 ...state,
