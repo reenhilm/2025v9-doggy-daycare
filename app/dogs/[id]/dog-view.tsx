@@ -67,7 +67,12 @@ export default function Dog({ dogid }: { dogid: string }) {
     
         return (
             <>
-                {prevDogId || state.hasPrevPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md`} onClick={() => goToDogOrChangePage(prevDogId, false)}>&lt;&lt;Previous dog</button> : ''}
+                <div className='flex gap-3 items-center my-4'>
+                    {prevDogId || state.hasPrevPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => goToDogOrChangePage(prevDogId, false)}>&lt;&lt;</button> : ''}
+                    <p className='text-black'>Dog: {state.page * 2 + dogIndexInSearch - 1} out of {state.totalDogsForSearch}</p>
+                    {nextDogId || state.hasNextPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => goToDogOrChangePage(nextDogId, true)}>&gt;&gt;</button> : ''}
+                </div>
+                
                 <div className={currentDog?.present ? styles.greenborder + ' flex flex-col border-8' : styles.redborder + ' flex flex-col border-8'}>
                     <div className='border-2'>
                         <Image
@@ -81,7 +86,7 @@ export default function Dog({ dogid }: { dogid: string }) {
                     <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => updateDog(currentDog, true)}>Ändra till närvarande</button>
                     <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => updateDog(currentDog, false)}>Ändra till frånvarande</button>
                 </div>
-                {nextDogId || state.hasNextPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md`} onClick={() => goToDogOrChangePage(nextDogId, true)}>&gt;&gt;Next dog</button> : ''}
+
             </> 
         )
     }    

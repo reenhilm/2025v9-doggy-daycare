@@ -28,14 +28,16 @@ export default function DogList() {
                         Our dogs
                     </h1>
                 </header>
-                <main>
+                <main className='flex flex-col justify-between'>
                     <div className='flex justify-between gap-15'>
                         <button className={`${styles.roundedbutton} rounded-lg shadow-md py-1 px-4 my-4`}>search</button>
                         <button className={`${styles.roundedbutton} rounded-lg shadow-md py-1 px-4 my-4`}>filter</button>
                     </div>
-                    {state.hasPrevPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => setPage(state.page - 1)}>Gå till sida {state.page - 1}</button> : ''}
-                    Page: {state.page} out of {state.totalPagesForSearch}                    
-                    {state.hasNextPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => setPage(state.page + 1)}>Gå till sida {state.page + 1}</button> : ''}
+                    <div className='flex gap-3 items-center my-4'>
+                        {state.hasPrevPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => setPage(state.page - 1)}>Gå till sida {state.page - 1}</button> : ''}
+                        <p className='text-black'>Page: {state.page} out of {state.totalPagesForSearch}</p>
+                        {state.hasNextPage ? <button className={`${styles.roundedbutton} rounded-lg shadow-md py-3 px-4`} onClick={() => setPage(state.page + 1)}>Gå till sida {state.page + 1}</button> : ''}
+                    </div>
                     <ul className='flex gap-3 flex-col'>
                         {state.dogsInPage.map((dog, index) =>
                             <li key={index} className={dog.present ? styles.greenborder + ' border-8' : styles.redborder + ' border-8'}>

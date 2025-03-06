@@ -28,7 +28,8 @@ export interface DogState {
     dogsInPage: Dog[],
     hasPrevPage: boolean,
     hasNextPage: boolean,
-    totalPagesForSearch: number
+    totalPagesForSearch: number,
+    totalDogsForSearch: number
 };
 
 export interface PayloadForDogAction {

@@ -20,11 +20,13 @@ export function DogsProvider({ children, initialDogs = [] }: DogsProviderProps) 
     let hasNextPage: boolean = false;
 
     let totalPagesForSearch = -1;
+    let totalDogsForSearch = -1;
     let dogSlice: Dog[] = [];
 
     if (initialDogs.length !== 0) {
         //We have a result of more than 0 dogs
         totalPagesForSearch = Math.ceil(initialDogs.length / dogsPerPage);
+        totalDogsForSearch = initialDogs.length;
         //To get end-index it's actually dogsPerPage * page. But since page is 1 it's not needed.
         dogSlice = initialDogs.slice(dogsPerPage * (page - 1), dogsPerPage);
 
@@ -40,6 +42,7 @@ export function DogsProvider({ children, initialDogs = [] }: DogsProviderProps) 
         page: page,
         dogsInPage: dogSlice,
         totalPagesForSearch: totalPagesForSearch,
+        totalDogsForSearch: totalDogsForSearch,
         hasPrevPage: false,
         hasNextPage: hasNextPage
     });
