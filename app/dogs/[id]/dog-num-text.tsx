@@ -16,7 +16,7 @@ export default function DogNumText({ propps }: { propps: DogNumTextProps }) {
             
             const timeout = setTimeout(() => {
                 setLastValidText(newText);
-            }, 200);
+            }, 0);
 
             return () => clearTimeout(timeout);
         }
